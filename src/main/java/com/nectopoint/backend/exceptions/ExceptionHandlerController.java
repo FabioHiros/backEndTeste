@@ -11,6 +11,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+
 @ControllerAdvice
 public class ExceptionHandlerController {
 
@@ -37,5 +39,14 @@ public class ExceptionHandlerController {
         return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InvalidFormatException.class)
+    public ResponseEntity<ErrorMessageDTO> handleInvalidEnumValue(InvalidFormatException ex) {
+        String fieldName = ex.getPath().get(0).getFieldName();
+        String invalidValue = ex.getValue().toString();
+
+        String message = "O valor '" + invalidValue + "' não é válido para o campo '" + fieldName + "'. Os valores permitidos são: ENTRY, LEAVE.";
+
+        return new ResponseEntity<>(new ErrorMessageDTO(message, fieldName), HttpStatus.BAD_REQUEST);
+    }
 
 }

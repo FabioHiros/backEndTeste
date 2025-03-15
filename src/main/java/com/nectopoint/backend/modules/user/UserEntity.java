@@ -1,7 +1,5 @@
 package com.nectopoint.backend.modules.user;
 
-import java.time.LocalTime;
-
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.persistence.Entity;
@@ -42,9 +40,4 @@ public class UserEntity {
 
     
     private Integer daily_hours;
-    
-    private LocalTime check_in;
-    private LocalTime check_out;
-    
-
 }
